@@ -18,6 +18,9 @@ import java.awt.Color;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import database.LoginService;
+import database.SessionManager;
+import javax.swing.JOptionPane;
 
 import style.GuiStyle;
 
@@ -27,11 +30,11 @@ public class LoginFrame extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel mainPanel, leftPanel, rightPanel, cardPanel;
     private CardLayout cardLayout;
-    private JTextField loginField, emailField;
+    private JTextField loginField, emailField, loginFieldReg;
     private JLabel loginLabel, mainLogLabel, passwordLabel, emailLabel;
     private JLabel registerLabel, forgetPassLabel, loginChangeLabel;
     private JButton loginButton, registerButton;
-    private JPasswordField passwordField;
+    private JPasswordField passwordField, passwordFieldReg;
     private JPanel loginPanel, registerPanel;
     private JLabel iconLabel;
     private JLabel appNameLabel;
@@ -136,24 +139,11 @@ public class LoginFrame extends JFrame {
         loginLabel = new JLabel("Login :");
         GuiStyle.applyStyleLabelBasic(loginLabel, 15,25,102, 150, 20);
         typeOfPanel.add(loginLabel);
-       
-        //TextBox dla loginu      
-        loginField = new JTextField();
-        loginField = GuiStyle.applyStyleTextField(loginField);
-        loginField.setBounds(25, 130, 250, 35);
-        typeOfPanel.add(loginField);
-        loginField.setColumns(10);
         
         passwordLabel = new JLabel("Hasło :");
         GuiStyle.applyStyleLabelBasic(passwordLabel,15, 25, 197, 150, 20);      
         typeOfPanel.add(passwordLabel);
-        
-        //TextBox dla hasla
-        passwordField = new JPasswordField();
-        passwordField = GuiStyle.applyStyleTextField(passwordField);
-        passwordField.setBounds(25, 225, 250, 35);
-        typeOfPanel.add(passwordField);
-        
+            
         JSeparator separatorOne = new JSeparator();
         separatorOne.setBounds(25, 165, 250, 20);
         typeOfPanel.add(separatorOne);     
@@ -195,6 +185,19 @@ public class LoginFrame extends JFrame {
         GuiStyle.applyStyleLabelBasic(registerLabel, 13, 50, 348, 195, 25);
         loginPanel.add(registerLabel);
         
+        //Textbox dla loginu
+        loginField = new JTextField();
+        loginField = GuiStyle.applyStyleTextField(loginField);
+        loginField.setBounds(25, 130, 250, 35);
+        loginField.setColumns(10);
+        loginPanel.add(loginField);
+            
+      //TextBox dla hasla
+        passwordField = new JPasswordField();
+        passwordField = GuiStyle.applyStyleTextField(passwordField);
+        passwordField.setBounds(25, 225, 250, 35);
+        loginPanel.add(passwordField);
+        
         forgetPassLabel = new JLabel("Zapomniałeś hasło?");    
         forgetPassLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         forgetPassLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -212,7 +215,19 @@ public class LoginFrame extends JFrame {
         loginButton = GuiStyle.applyStyleButton(loginButton, 16);
         loginButton.setBounds(25, 305, 250, 40);
         loginPanel.add(loginButton);
-        
+        loginButton.addActionListener(e -> {
+            String username = loginField.getText();
+            String password = new String(passwordField.getPassword());
+            try {
+            	//TODO do zmiany jak juz bedzie menu, bedzie sie otwierac formatka z grami
+                String token = LoginService.login(username, password);
+                SessionManager.setAuthToken(token, username);
+                JOptionPane.showMessageDialog(LoginFrame.this, "Zalogowano pomyslnie!\nToken:\n" + token);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(LoginFrame.this, "Blad logowania: " + ex.getMessage());
+            }
+        });       
         cardLayout.show(cardPanel, "Login");
     	
     }
@@ -222,7 +237,18 @@ public class LoginFrame extends JFrame {
     	 emailField = GuiStyle.applyStyleTextField(emailField);
     	 emailField.setBounds(25, 315, 250, 35);
          registerPanel.add(emailField);
+               
+         loginFieldReg = new JTextField();
+         loginFieldReg = GuiStyle.applyStyleTextField(loginFieldReg);
+         loginFieldReg.setBounds(25, 130, 250, 35);
+         loginFieldReg.setColumns(10);
+         registerPanel.add(loginFieldReg);
          
+         passwordFieldReg = new JPasswordField();
+         passwordFieldReg = GuiStyle.applyStyleTextField(passwordFieldReg);
+         passwordFieldReg.setBounds(25, 225, 250, 35);
+         registerPanel.add(passwordFieldReg);
+          
          registerButton = new JButton("Zarejestruj się");
          registerButton = GuiStyle.applyStyleButton(registerButton, 16);
          registerButton.setBounds(25, 385, 250, 40);
