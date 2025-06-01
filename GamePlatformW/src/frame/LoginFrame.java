@@ -14,17 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
-
-import style.GuiStyle;
-
 import java.awt.Color;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Font;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import style.GuiStyle;
 
 
 public class LoginFrame extends JFrame {
@@ -56,15 +51,25 @@ public class LoginFrame extends JFrame {
     }
 
     public LoginFrame() {
+    	//generuje rozmieszczenie layoutow
+    	generateLayout();
+        //generuje caly wyglad, ktory maja wspolny obie formatki
+        generateCommonLayout("Logowanie", loginPanel);
+        generateCommonLayout("Rejestracja", registerPanel);
+        //Kod do wygladu logowania
+        generateLoginLayout();
+        //Kod do wygladu rejestracji, czyli dodatkowy textbox
+        generateRegisterLayout();
+    }
+    private void generateLayout() {
     	setResizable(false);
-    	//Podstawowe rozmieszczenie layotow
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 500);
         mainPanel = new JPanel();
         setContentPane(mainPanel);
-        GridBagLayout gbl_mainPanel = new GridBagLayout();
-        gbl_mainPanel.rowWeights = new double[]{1.0};
-        mainPanel.setLayout(gbl_mainPanel);
+        GridBagLayout gblMainPanel = new GridBagLayout();
+        gblMainPanel.rowWeights = new double[]{1.0};
+        mainPanel.setLayout(gblMainPanel);
 
         GridBagConstraints gbcLeft = new GridBagConstraints();
         gbcLeft.insets = new Insets(0, 0, 0, 0);
@@ -116,16 +121,10 @@ public class LoginFrame extends JFrame {
         registerPanel.setBackground(new Color(36, 47, 65));
         cardPanel.add(registerPanel, "Register");
         cardPanel.add(loginPanel, "Login");
-        //generuje caly wyglad, ktory maja wspolny obie formatki
-        generateBasicLayout("Logowanie", loginPanel);
-        generateBasicLayout("Rejestracja", registerPanel);
-        //Kod do wygladu logowania
-        generateLoginLayout();
-        //Kod do wygladu rejestracji, czyli dodatkowy textbox
-        generateRegisterLayout();
     }
+
     
-    private void generateBasicLayout(String nameOfLayout, JPanel typeOfPanel)
+    private void generateCommonLayout(String nameOfLayout, JPanel typeOfPanel)
     {     
         typeOfPanel.setLayout(null);
         mainLogLabel = new JLabel(nameOfLayout);
@@ -248,8 +247,5 @@ public class LoginFrame extends JFrame {
              }
          });
          loginChangeLabel.addMouseListener(hoverEffect);      
-         
-         
-    	
     }
 }
