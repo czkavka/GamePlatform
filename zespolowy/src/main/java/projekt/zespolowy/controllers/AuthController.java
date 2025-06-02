@@ -75,13 +75,13 @@ public class AuthController {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Login juz uzyty"));
+          .body(new MessageResponse("Login jest już w użyciu!"));
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
           .badRequest()
-          .body(new MessageResponse("Email juz uzyty"));
+          .body(new MessageResponse("Email jest już w użyciu!"));
     }
 
     User user = new User(signUpRequest.getUsername(), 
@@ -121,6 +121,6 @@ public class AuthController {
     user.setRoles(roles);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("Zajerestrowano"));
+    return ResponseEntity.ok(new MessageResponse("Zarejestrowano!"));
   }
 }

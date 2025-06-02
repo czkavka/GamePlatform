@@ -18,11 +18,11 @@ import java.awt.Color;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import database.LoginService;
 import database.SessionManager;
 import javax.swing.JOptionPane;
 
 import style.GuiStyle;
+import database.*;
 
 
 public class LoginFrame extends JFrame {
@@ -253,6 +253,23 @@ public class LoginFrame extends JFrame {
          registerButton = GuiStyle.applyStyleButton(registerButton, 16);
          registerButton.setBounds(25, 385, 250, 40);
          registerPanel.add(registerButton);
+         registerButton.addActionListener(e -> { 
+        	 String username = loginFieldReg.getText();
+        	 String email = emailField.getText();
+             String password = new String(passwordFieldReg.getPassword());
+             
+             try {
+            	 
+             	//TODO do zmiany jak juz bedzie menu, bedzie sie otwierac formatka z grami, message musi dzialac
+            	 String message = RegisterService.register(username, email, password);
+            	
+            	 JOptionPane.showMessageDialog(this, message, "Sukces", JOptionPane.INFORMATION_MESSAGE);
+                 cardLayout.show(cardPanel, "Login");
+
+             } catch (Exception ex) {
+            	 JOptionPane.showMessageDialog(this, ex.getMessage(), "Błąd z rejestracją", JOptionPane.ERROR_MESSAGE);
+             }
+         });       
          
          emailLabel = new JLabel("Email : ");
          emailLabel = GuiStyle.applyStyleLabelBasic(emailLabel, 15, 25, 290, 150, 20);
