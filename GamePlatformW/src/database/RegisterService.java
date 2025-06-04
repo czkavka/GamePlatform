@@ -43,17 +43,20 @@ public class RegisterService {
 
 	    String message = extractMessage(response.toString());
 
-	    if (code >= 200 && code < 300) {
+	    if (code == 200) {
 	        return message != null ? message : "Rejestracja zakończona sukcesem.";
-	    } else {
+	    }
+	    else if (code == 400) {
+	    	return message;
+	    }
+	    else {
 	        throw new Exception(message != null ? message : "Błąd rejestracji.");
 	    }
 	}
 
 	private static String extractMessage(String json) {
 	    if (json == null || json.isEmpty()) return null;
-
-	    // Przykład: {"message":"Login jest już w użyciu!"}
+	    
 	    int keyIndex = json.indexOf("\"message\":\"");
 	    if (keyIndex == -1) return null;
 
