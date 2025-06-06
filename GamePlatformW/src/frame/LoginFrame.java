@@ -222,10 +222,9 @@ public class LoginFrame extends JFrame {
             	//TODO do zmiany jak juz bedzie menu, bedzie sie otwierac formatka z grami
                 String token = LoginService.login(username, password);
                 SessionManager.setAuthToken(token, username);
-                JOptionPane.showMessageDialog(LoginFrame.this, "Zalogowano pomyslnie!\nToken:\n" + token);
 
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(LoginFrame.this, "Blad logowania: " + ex.getMessage());
+            	JOptionPane.showMessageDialog(this, "Błędny login lub hasło!", "Błąd z logowaniem", JOptionPane.ERROR_MESSAGE);
             }
         });       
         cardLayout.show(cardPanel, "Login");
@@ -259,16 +258,17 @@ public class LoginFrame extends JFrame {
              String password = new String(passwordFieldReg.getPassword());
              
              try {
-            	 
-             	//TODO do zmiany jak juz bedzie menu, bedzie sie otwierac formatka z grami, message musi dzialac
-            	 String message = RegisterService.register(username, email, password);
-            	
-            	 JOptionPane.showMessageDialog(this, message, "Sukces", JOptionPane.INFORMATION_MESSAGE);
-                 cardLayout.show(cardPanel, "Login");
+            	    String message = RegisterService.register(username, email, password);
+            	    if ("Zarejestrowano!".equals(message)) {
+            	        JOptionPane.showMessageDialog(this, message, "Sukces", JOptionPane.INFORMATION_MESSAGE);
+            	        cardLayout.show(cardPanel, "Login");
+            	    } else {
+            	        JOptionPane.showMessageDialog(this, message, "Błąd rejestracji", JOptionPane.ERROR_MESSAGE);
+            	    }
+            	} catch (Exception ex) {
+            	    JOptionPane.showMessageDialog(this, ex.getMessage(), "Nieznany bład", JOptionPane.ERROR_MESSAGE);
+            	}
 
-             } catch (Exception ex) {
-            	 JOptionPane.showMessageDialog(this, ex.getMessage(), "Błąd z rejestracją", JOptionPane.ERROR_MESSAGE);
-             }
          });       
          
          emailLabel = new JLabel("Email : ");

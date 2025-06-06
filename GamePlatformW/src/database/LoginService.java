@@ -3,6 +3,7 @@ package database;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import org.json.JSONObject;
 
 public class LoginService {
 
@@ -50,20 +51,12 @@ public class LoginService {
     }
 
     private static String extractToken(String json) {
-        String marker = "\"accessToken\":\"";
-        int start = json.indexOf(marker);
-        if (start == -1) {
-            System.err.println("Bład tokena");
+        try {
+            JSONObject obj = new JSONObject(json);
+            return obj.getString("accessToken");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
             return null;
         }
-
-        start += marker.length();
-        int end = json.indexOf("\"", start);
-        if (end == -1) {
-            System.err.println("Błąd tokena");
-            return null;
-        }
-
-        return json.substring(start, end);
     }
 }
