@@ -18,11 +18,13 @@ import java.awt.Color;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import database.SessionManager;
+
 import javax.swing.JOptionPane;
 
 import style.GuiStyle;
 import database.*;
+import session.SessionManager;
+import session.TokenValidation;
 
 
 public class LoginFrame extends JFrame {
@@ -39,6 +41,7 @@ public class LoginFrame extends JFrame {
     private JLabel iconLabel;
     private JLabel appNameLabel;
     private MouseAdapter hoverEffect;
+
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -74,21 +77,9 @@ public class LoginFrame extends JFrame {
         gblMainPanel.rowWeights = new double[]{1.0};
         mainPanel.setLayout(gblMainPanel);
 
-        GridBagConstraints gbcLeft = new GridBagConstraints();
-        gbcLeft.insets = new Insets(0, 0, 0, 0);
-        gbcLeft.fill = GridBagConstraints.BOTH;
-        gbcLeft.gridx = 0;
-        gbcLeft.gridy = 0;
-        gbcLeft.weightx = 0.6;
-        gbcLeft.weighty = 1.0;
-
-        GridBagConstraints gbcRight = new GridBagConstraints();
-        gbcRight.insets = new Insets(0, 0, 0, 0);
-        gbcRight.fill = GridBagConstraints.BOTH;
-        gbcRight.gridx = 1;
-        gbcRight.gridy = 0;
-        gbcRight.weightx = 0.4;
-        gbcRight.weighty = 1.0;
+        //gridlayout 
+        GridBagConstraints gbcLeft = GuiStyle.createGbc(0, 0, 0.6, 1.0);
+        GridBagConstraints gbcRight = GuiStyle.createGbc(1, 0, 0.4, 1.0);
 
         leftPanel = new JPanel();
         leftPanel.setBackground(new Color(100, 210, 195));
@@ -210,7 +201,6 @@ public class LoginFrame extends JFrame {
         });
         forgetPassLabel.addMouseListener(hoverEffect);    
         loginPanel.add(forgetPassLabel);
-        
         loginButton = new JButton("Zaloguj się");
         loginButton = GuiStyle.applyStyleButton(loginButton, 16);
         loginButton.setBounds(25, 305, 250, 40);
@@ -219,9 +209,11 @@ public class LoginFrame extends JFrame {
             String username = loginField.getText();
             String password = new String(passwordField.getPassword());
             try {
-            	//TODO do zmiany jak juz bedzie menu, bedzie sie otwierac formatka z grami
                 String token = LoginService.login(username, password);
-                SessionManager.setAuthToken(token, username);
+                SessionManager.getInstance().setAuthToken(token, username);
+                MenuFrame menuFrame = new MenuFrame();
+                menuFrame.setVisible(true);
+                this.dispose();
 
             } catch (Exception ex) {
             	JOptionPane.showMessageDialog(this, "Błędny login lub hasło!", "Błąd z logowaniem", JOptionPane.ERROR_MESSAGE);

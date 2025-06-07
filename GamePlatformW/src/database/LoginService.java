@@ -44,7 +44,7 @@ public class LoginService {
         if (code == HttpURLConnection.HTTP_OK) {
             return extractToken(response.toString());
         } else {
-            String errorMessage = "Błąd logowania (" + code + "): " + response.toString();
+            String errorMessage = response.toString();
             System.err.println(errorMessage);
             throw new IOException(errorMessage);
         }

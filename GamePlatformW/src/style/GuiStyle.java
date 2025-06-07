@@ -3,6 +3,9 @@ package style;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
 import javax.swing.JLabel;
 import javax.swing.text.JTextComponent;
 
@@ -29,6 +32,17 @@ public class GuiStyle {
          button.setBackground(new Color(100, 210, 195));
          button.setFont(new Font("Century Gothic", Font.PLAIN, fontSize));  	
     	return button;
+    }
+    
+    public static  GridBagConstraints createGbc(int x, int y, double weightx, double weighty) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.weightx = weightx;
+        gbc.weighty = weighty;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        return gbc;
     }
     
     
