@@ -10,8 +10,9 @@ import style.GuiStyle;
 public class MenuFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private JPanel mainPanel, userPanel, rightPanel, topPanel;
+    private JPanel mainPanel, userPanel, rightPanel;
     private TokenValidation tokenValidation;
+    private JLabel homeLabelIcon, settingsLabelIcon, rankingLabelIcon;
     
 
     public static void main(String[] args) {
@@ -46,11 +47,6 @@ public class MenuFrame extends JFrame {
         mainPanel = new JPanel(new GridBagLayout());
         setContentPane(mainPanel);
         
-        //pasek 
-        topPanel = createTopPanel();
-        GridBagConstraints gbcTop = GuiStyle.createGbc(0, 0, 1.0, 0.0);
-        gbcTop.gridwidth = 2;
-        mainPanel.add(topPanel, gbcTop);
         //lewa strona - informacje o uzytkowniku, 
         userPanel = createLeftPanel();
         GridBagConstraints gbcLeft = GuiStyle.createGbc(0, 1, 0, 1.0);
@@ -60,32 +56,35 @@ public class MenuFrame extends JFrame {
         rightPanel = createRightPanel();
         GridBagConstraints gbcRight = GuiStyle.createGbc(1, 1, 0.9, 1.0);
         mainPanel.add(rightPanel, gbcRight);
+        
     }
 
     private JPanel createLeftPanel() {
     	userPanel = new JPanel();
-        userPanel.setLayout(new BorderLayout());
-        userPanel.setBackground(new Color(240, 240, 240));
         userPanel.setPreferredSize(new Dimension(100, 0));
-
+        userPanel.setBackground(new Color(36, 47, 65));
+        
+        homeLabelIcon = GuiStyle.createIcon(homeLabelIcon, "/resources/homeIcon.png", 27, 140, 45, 45);
+        settingsLabelIcon = GuiStyle.createIcon(settingsLabelIcon, "/resources/settingsIcon.png", 27, 210, 45, 45);
+        rankingLabelIcon = GuiStyle.createIcon(rankingLabelIcon, "/resources/rankingIcon.png", 27, 280, 45, 45);
+        
+        
+        
+        userPanel.setLayout(null);    
+        userPanel.add(homeLabelIcon);
+        userPanel.add(settingsLabelIcon);
+        userPanel.add(rankingLabelIcon);
         return userPanel;
     }
 
     private JPanel createRightPanel() {
     	rightPanel = new JPanel();
-        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setBackground(new Color(37, 77, 112));
         rightPanel.setLayout(null);
         JLabel chooseLabel = new JLabel("Wybierz grę");
-        GuiStyle.applyStyleLabelBasic(chooseLabel, 32, 350, 0, 200, 40);
-        chooseLabel.setForeground(new Color(0, 0, 0));
+        GuiStyle.applyStyleLabelBasic(chooseLabel, 36, 350,0, 220, 50);
         rightPanel.add(chooseLabel);
         return rightPanel;
     }
 
-    private JPanel createTopPanel() {
-        topPanel = new JPanel(new BorderLayout());
-        topPanel.setPreferredSize(new Dimension(0, 50));
-        topPanel.setBackground(new Color(200, 200, 200));
-        return topPanel;
-    }
 }

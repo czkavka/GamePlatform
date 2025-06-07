@@ -1,13 +1,19 @@
 package style;
 
 import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.text.JTextComponent;
+
+import frame.LoginFrame;
+import frame.MenuFrame;
 
 //klasa, ktora ustawia style, widac je dopiero po odpaleniu aplikacji, pomaga redundancji kodu 
 public class GuiStyle {
@@ -43,6 +49,13 @@ public class GuiStyle {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 0, 0, 0);
         return gbc;
+    }
+    
+    public static JLabel createIcon(JLabel label, String resource, int x, int y, int width, int height) {
+    	 ImageIcon icon = new ImageIcon(MenuFrame.class.getResource(resource));
+         label = new JLabel(icon);
+         label.setBounds(x,y, width, height);
+    	return label;
     }
     
     
