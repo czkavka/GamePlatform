@@ -88,9 +88,9 @@ public class LoginFrame extends JFrame {
 
         mainPanel.add(leftPanel, gbcLeft);
         
-        //ikonka ze skalowaniem
+        //ikonka ze skalowaniem      
         ImageIcon originalIcon = new ImageIcon(LoginFrame.class.getResource("/resources/loginIcon.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(350,250, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(360,290, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         iconLabel = new JLabel(scaledIcon);
         iconLabel.setBounds(55, 95, 360, 290);

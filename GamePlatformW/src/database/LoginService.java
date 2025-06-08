@@ -1,7 +1,8 @@
 package database;
 
 import java.io.*;
-import java.net.*;
+import java.net.URL;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
