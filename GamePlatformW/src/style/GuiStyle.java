@@ -130,7 +130,6 @@ public class GuiStyle {
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         button.addMouseListener(new MouseAdapter() {
             @Override
@@ -146,6 +145,13 @@ public class GuiStyle {
             }
         });
 
+        return button;
+    }
+    
+    public static JButton createStyledButton(String text, int fontSize, int x, int y, int width, int height) {
+        JButton button = new JButton(text);
+        button = GuiStyle.applyStyleButton(button, fontSize);
+        button.setBounds(x, y, width, height);
         return button;
     }
 

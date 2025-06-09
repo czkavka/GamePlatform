@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import projekt.zespolowy.gameService.RankingService;
 import projekt.zespolowy.models.ERole;
 import projekt.zespolowy.models.Role;
 import projekt.zespolowy.models.User;
@@ -43,6 +44,9 @@ public class AuthController {
 
   @Autowired
   RoleRepository roleRepository;
+
+  @Autowired
+  RankingService rankingService;
 
   @Autowired
   PasswordEncoder encoder;
@@ -102,6 +106,8 @@ public class AuthController {
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
 
+
+
     if (strRoles == null) {
       Role userRole = roleRepository.findByName(ERole.ROLE_USER)
           .orElseThrow(() -> new RuntimeException("Nie znaleziono roli"));
@@ -131,7 +137,7 @@ public class AuthController {
 
     user.setRoles(roles);
     userRepository.save(user);
-
+    rankingService.initializeUserRanking(user);
     return ResponseEntity.ok(new MessageResponse("Zarejestrowano!"));
   }
 }

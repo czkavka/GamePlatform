@@ -20,6 +20,7 @@ public class MenuFrame extends JFrame {
     private JLabel logoIcon;
     private JButton homeButton, settingsButton, rankingButton;
     private JButton ticTacToeButton, battleshipsButton;
+    private JButton[] rankingButtons;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -93,21 +94,39 @@ public class MenuFrame extends JFrame {
     private JPanel createRightPanel() {
         cardLayout = new CardLayout();
         rightPanel = new JPanel(cardLayout);
-
-        homePanel = new JPanel(null);
+        
+        homePanel = new JPanel();
+        homePanel.setLayout(null);
         homePanel.setBackground(new Color(30, 60, 89));
         JLabel chooseLabel = new JLabel("Wybierz grę");
         GuiStyle.applyStyleLabelBasic(chooseLabel, 36, 340, 0, 220, 50);
         homePanel.add(chooseLabel);
 
         settingsPanel = new JPanel();
-        settingsPanel.setBackground(new Color(70, 100, 130));
-        settingsPanel.add(new JLabel("Ustawienia"));
+        JLabel settingsLabel = new JLabel("Ustawienia");
+        settingsLabel = GuiStyle.applyStyleLabelBasic(settingsLabel, 36, 340, 0, 220, 50);
+        settingsPanel.add(settingsLabel);
 
         rankingPanel = new JPanel();
-        rankingPanel.setBackground(new Color(80, 130, 180));
-        rankingPanel.add(new JLabel("Ranking użytkowników"));
+        rankingPanel.setLayout(null);
+        rankingPanel.setBackground(new Color(30, 60, 89));
+        
+       
+            
+        String[] games = { "Kółko - Krzyżyk", "Statki", "Kamień-papier-nożyce" };
+        rankingButtons = new JButton[3];
+        int[] x = { 50, 340, 640 };
 
+        for (int i = 0; i < games.length; i++) {
+            JButton button = GuiStyle.createStyledButton(games[i], 15, x[i], 90, 200, 50);
+            rankingButtons[i] = button;
+            rankingPanel.add(button);
+
+        }     
+        JLabel rankingLabel = new JLabel("Ranking użytkowników");
+        rankingLabel = GuiStyle.applyStyleLabelBasic(rankingLabel,36, 250,0, 400, 50);  
+        rankingPanel.add(rankingLabel);
+        
         rightPanel.add(homePanel, "home");
         rightPanel.add(settingsPanel, "settings");
         rightPanel.add(rankingPanel, "ranking");
@@ -127,4 +146,6 @@ public class MenuFrame extends JFrame {
         
         return rightPanel;
     }
+    
+    
 }
