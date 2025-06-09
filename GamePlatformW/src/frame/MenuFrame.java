@@ -3,7 +3,14 @@ package frame;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import session.SessionManager;
 import session.TokenValidation;
@@ -19,8 +26,11 @@ public class MenuFrame extends JFrame {
     private TokenValidation tokenValidation;
     private JLabel logoIcon;
     private JButton homeButton, settingsButton, rankingButton;
-    private JButton ticTacToeButton, battleshipsButton;
+    private JButton ticTacToeButton, battleshipsButton, rockPSButton;
     private JButton[] rankingButtons;
+    private JPasswordField changePassField, changePassFieldConf;
+    private JTextField changeUsernameField;
+    private JButton changeSettingsButton;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -93,26 +103,22 @@ public class MenuFrame extends JFrame {
 
     private JPanel createRightPanel() {
         cardLayout = new CardLayout();
-        rightPanel = new JPanel(cardLayout);
+        rightPanel = new JPanel(cardLayout); 
         
-        homePanel = new JPanel();
-        homePanel.setLayout(null);
-        homePanel.setBackground(new Color(30, 60, 89));
+        JPanel[] panels = new JPanel[3];
+        for (int i = 0; i < panels.length; i++) {
+            panels[i] = new JPanel();
+            panels[i].setLayout(null);
+            panels[i].setBackground(new Color(30, 60, 89));
+        }
+        homePanel = panels[0];
+        settingsPanel = panels[1];
+        rankingPanel = panels[2];
+        
         JLabel chooseLabel = new JLabel("Wybierz grę");
         GuiStyle.applyStyleLabelBasic(chooseLabel, 36, 340, 0, 220, 50);
-        homePanel.add(chooseLabel);
+        homePanel.add(chooseLabel);   
 
-        settingsPanel = new JPanel();
-        JLabel settingsLabel = new JLabel("Ustawienia");
-        settingsLabel = GuiStyle.applyStyleLabelBasic(settingsLabel, 36, 340, 0, 220, 50);
-        settingsPanel.add(settingsLabel);
-
-        rankingPanel = new JPanel();
-        rankingPanel.setLayout(null);
-        rankingPanel.setBackground(new Color(30, 60, 89));
-        
-       
-            
         String[] games = { "Kółko - Krzyżyk", "Statki", "Kamień-papier-nożyce" };
         rankingButtons = new JButton[3];
         int[] x = { 50, 340, 640 };
@@ -127,6 +133,10 @@ public class MenuFrame extends JFrame {
         rankingLabel = GuiStyle.applyStyleLabelBasic(rankingLabel,36, 250,0, 400, 50);  
         rankingPanel.add(rankingLabel);
         
+        JLabel settingsLabel = new JLabel("Ustawienia");
+        settingsLabel = GuiStyle.applyStyleLabelBasic(settingsLabel, 36, 350, 0, 220, 50);
+        settingsPanel.add(settingsLabel);
+        
         rightPanel.add(homePanel, "home");
         rightPanel.add(settingsPanel, "settings");
         rightPanel.add(rankingPanel, "ranking");
@@ -138,11 +148,55 @@ public class MenuFrame extends JFrame {
         	//TODO wlaczenie gierki, polaczenie z serwerem
         });
         battleshipsButton = GuiStyle.createGradientButton("Statki", 25, new Color(70,30,40),new Color(150, 30, 30), "/resources/shipIcon.png");
-        battleshipsButton.setBounds(350, 140, 250,250);
+        battleshipsButton.setBounds(575, 140, 250,250);
         homePanel.add(battleshipsButton);
         battleshipsButton.addActionListener(e -> {
    
+        });      
+        rockPSButton = GuiStyle.createGradientButton("Papier kamień nożyce", 18, new Color(30, 70, 40),new Color(30, 150, 30), "/resources/rpsIcon.png");
+        rockPSButton.setBounds(300, 220,250,250);
+        homePanel.add(rockPSButton);
+                
+        changeUsernameField = new JTextField();
+        changeUsernameField = GuiStyle.applyStyleTextField(changeUsernameField);
+        changeUsernameField.setBounds(320,120,250,40);
+        settingsPanel.add(changeUsernameField);
+        
+        changePassField = new JPasswordField();
+        changePassField = GuiStyle.applyStyleTextField(changePassField);
+        changePassField.setBounds(320,220,250,40);
+        settingsPanel.add(changePassField);
+          
+        changePassFieldConf = new JPasswordField();
+        changePassFieldConf = GuiStyle.applyStyleTextField(changePassFieldConf);
+        changePassFieldConf.setBounds(320,320,250,40);
+        settingsPanel.add(changePassFieldConf);
+        
+        changeSettingsButton = new JButton("Potwierdź");
+        changeSettingsButton = GuiStyle.applyStyleButton(changeSettingsButton, 18);
+        changeSettingsButton.setBounds(355, 410, 180, 45);
+        settingsPanel.add(changeSettingsButton);
+            
+        JLabel[] settingsLabels = new JLabel[3];
+        String [] text = {"Zmień nazwę użytkownika : ", "Zmień hasło : ", "Potwierdź hasło : "};
+        int [] xPos = {30, 167, 130};
+        int start = 120;
+        
+        for (int k = 0; k < settingsLabels.length; k++)
+        {
+        	settingsLabels[k] = new JLabel(text[k]);
+        	settingsLabels[k] = GuiStyle.applyStyleLabelBasic(settingsLabels[k],20,xPos[k],start,300,40);
+        	start += 100;
+        	settingsPanel.add(settingsLabels[k]);         	
+        }
+        changeSettingsButton.addActionListener(e -> {
+        	String newPassword = new String(changePassField.getPassword());
+            String confirmPassword = new String(changePassFieldConf.getPassword());
+            String username = changeUsernameField.getText();
+            
+            
         });
+        
         
         return rightPanel;
     }

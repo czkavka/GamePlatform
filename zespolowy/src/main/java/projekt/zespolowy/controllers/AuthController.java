@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import projekt.zespolowy.gameService.RankingService;
 import projekt.zespolowy.models.ERole;
 import projekt.zespolowy.models.Role;
 import projekt.zespolowy.models.User;
+import projekt.zespolowy.payload.request.CredentialChangeRequest;
 import projekt.zespolowy.payload.request.LoginRequest;
 import projekt.zespolowy.payload.request.SignupRequest;
 import projekt.zespolowy.payload.response.JwtResponse;
@@ -32,6 +34,7 @@ import projekt.zespolowy.repository.RoleRepository;
 import projekt.zespolowy.repository.UserRepository;
 import projekt.zespolowy.security.jwt.JwtUtils;
 import projekt.zespolowy.security.services.UserDetailsImpl;
+import projekt.zespolowy.security.services.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -50,6 +53,9 @@ public class AuthController {
 
   @Autowired
   PasswordEncoder encoder;
+
+  @Autowired
+  UserService userService;
 
   @Autowired
   JwtUtils jwtUtils;
@@ -82,6 +88,18 @@ public class AuthController {
             return ResponseEntity.ok().build(); 
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); 
+        }
+    }
+   @PutMapping("/credentials")
+   public ResponseEntity<MessageResponse> changeUserCredentials(@RequestBody CredentialChangeRequest request) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            Long userId = userDetails.getId();
+            userService.changeCredentials(userId, request);
+            return ResponseEntity.ok(new MessageResponse("Pomyślnie zmieniono dane!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Błąd zmiany danych : " + e.getMessage()));
         }
     }
 
@@ -140,4 +158,7 @@ public class AuthController {
     rankingService.initializeUserRanking(user);
     return ResponseEntity.ok(new MessageResponse("Zarejestrowano!"));
   }
+ 
+
+
 }
