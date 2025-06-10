@@ -1,17 +1,17 @@
 package frame;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import database.ChangeCredentialsService;
 import session.SessionManager;
 import session.TokenValidation;
 import style.GuiStyle;
@@ -193,8 +193,18 @@ public class MenuFrame extends JFrame {
         	String newPassword = new String(changePassField.getPassword());
             String confirmPassword = new String(changePassFieldConf.getPassword());
             String username = changeUsernameField.getText();
-            
-            
+            try {
+            	String message = ChangeCredentialsService.changeCredentials(SessionManager.getInstance().getAuthToken(),newPassword,confirmPassword,username);
+            	tokenValidation.stopTokenValidation();
+            	tokenValidation = new TokenValidation(SessionManager.getInstance().getAuthToken(),this);
+            	tokenValidation.startTokenValidation();
+            	changeUsernameField.setText("");
+            	changePassFieldConf.setText("");
+            	changePassField.setText("");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Błąd!", JOptionPane.ERROR_MESSAGE);
+            }
+                       
         });
         
         

@@ -34,6 +34,7 @@ import projekt.zespolowy.repository.RoleRepository;
 import projekt.zespolowy.repository.UserRepository;
 import projekt.zespolowy.security.jwt.JwtUtils;
 import projekt.zespolowy.security.services.UserDetailsImpl;
+import projekt.zespolowy.security.services.UserDetailsServiceImpl;
 import projekt.zespolowy.security.services.UserService;
 
 @RestController
@@ -59,6 +60,8 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+  @Autowired 
+  UserDetailsServiceImpl userDetailsServiceImpl;
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -91,17 +94,30 @@ public class AuthController {
         }
     }
    @PutMapping("/credentials")
-   public ResponseEntity<MessageResponse> changeUserCredentials(@RequestBody CredentialChangeRequest request) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            Long userId = userDetails.getId();
-            userService.changeCredentials(userId, request);
-            return ResponseEntity.ok(new MessageResponse("Pomyślnie zmieniono dane!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Błąd zmiany danych : " + e.getMessage()));
-        }
+   public ResponseEntity<?> changeUserCredentials(@RequestBody CredentialChangeRequest request) {
+    try {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+        userService.changeCredentials(userId, request);
+        UserDetailsImpl updatedUserDetails = (UserDetailsImpl) userDetailsServiceImpl.loadUserByUsername(request.getNewUsername());
+        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+                                           updatedUserDetails, 
+                                           authentication.getCredentials(), 
+                                           updatedUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+        String newToken = jwtUtils.generateJwtToken(newAuthentication);
+        return ResponseEntity.ok(new JwtResponse(newToken,  
+                                updatedUserDetails.getId(), 
+                                updatedUserDetails.getUsername(), 
+                           null,
+                           null));
+
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body(new MessageResponse("Błąd zmiany danych : " + e.getMessage()));
     }
+  }
+
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {

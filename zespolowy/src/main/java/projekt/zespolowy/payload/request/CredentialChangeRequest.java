@@ -1,17 +1,10 @@
 package projekt.zespolowy.payload.request;
 
 public class CredentialChangeRequest {
-    private String currentPassword;
     private String newPassword;
     private String confirmPassword;
     private String newUsername;
 
-    public String getCurrentPassword() {
-        return currentPassword;
-    }
-    public void setCurrentPassword(String oldPassword) {
-        this.currentPassword = oldPassword;
-    }
     public String getNewPassword() {
         return newPassword;
     }

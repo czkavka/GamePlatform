@@ -32,6 +32,9 @@ public class UserService {
             if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
                 throw new Exception("Nowe hasło nie może być takie samo jak obecne hasło!");
             }
+            if (request.getNewPassword().length() < 6) {
+            throw new Exception("Hasło musi mieć co najmniej 6 znaków!");
+            }
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         }
 
@@ -39,6 +42,9 @@ public class UserService {
             if (userRepo.existsByUsername(request.getNewUsername())) {
                 throw new Exception("Podana nazwa użytkownika jest już zajęta!");
             }
+            if (request.getNewUsername().length() < 3) {
+            throw new Exception("Nazwa użytkownika musi mieć co najmniej 3 znaki!");
+        }
             user.setUsername(request.getNewUsername());
         }
 

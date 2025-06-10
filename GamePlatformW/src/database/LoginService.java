@@ -10,10 +10,13 @@ public class LoginService {
 
     private static final String LOGIN_URL = "http://localhost:8080/api/auth/signin";
 
-    public static String login(String username, String password) throws IOException {
+    public static String login(String username, String password) throws Exception {
         URL url = new URL(LOGIN_URL);
-        String jsonInput = String.format("{\"username\":\"%s\", \"password\":\"%s\"}", username, password);
-
+        JSONObject json = new JSONObject();
+        json.put("username", username);
+        json.put("password", password);
+        String jsonInput = json.toString();
+        
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json; utf-8");

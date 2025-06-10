@@ -2,6 +2,7 @@ package database;
 
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,25 +22,25 @@ public class RankingService {
         conn.setConnectTimeout(5000);
         conn.setReadTimeout(5000);
 
-        int status = conn.getResponseCode();
+        int code = conn.getResponseCode();
+        InputStream responseStream;
 
-        BufferedReader inputResponse;
-        if (status >= 200 && status < 300) {
-            inputResponse = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+        if (code == HttpURLConnection.HTTP_OK) {
+            responseStream = conn.getInputStream();
         } else {
-            inputResponse = new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+            responseStream = conn.getErrorStream();
         }
 
         StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = inputResponse.readLine()) != null) {
-            response.append(line.trim());
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(responseStream, StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
         }
-        inputResponse.close();
-
         conn.disconnect();
 
-        if (status >= 200 && status < 300) {
+        if (code >= 200 && code < 300) {
             return new JSONArray(response.toString());
         } else {
             try {
