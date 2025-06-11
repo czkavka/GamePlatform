@@ -10,7 +10,7 @@ import org.json.JSONObject;
  * Klasa odpowiedzialna za rejestracje uzytkownika przez HTTP wysyla zapytanie (SignupRequest) i otrzymuje odpowiedz (MessageResponse)
  */
 public class RegisterService {
-	private static String REGISTER_URL = "http://localhost:8080/api/auth/signup";
+	private static String REGISTER_URL = "http://192.168.1.10:8080/api/auth/signup";
 	
 	public static String register(String username, String email, String password) throws Exception {
 	    URL url = new URL(REGISTER_URL);

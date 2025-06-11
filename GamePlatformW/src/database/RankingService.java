@@ -15,7 +15,7 @@ import org.json.JSONObject;
  */
 
 public class RankingService {
-    private static final String BASE_URL = "http://localhost:8080/api/ranking?eGame=";
+    private static final String BASE_URL = "http://192.168.1.10:8080/api/ranking?eGame=";
 
     public static JSONArray getRankingForGame(String gameName) throws Exception {
         URL url = new URL(BASE_URL + gameName);

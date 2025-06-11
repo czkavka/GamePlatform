@@ -11,7 +11,7 @@ public class TokenValidation {
     private final String token;
     private final JFrame frame;
     private Timer tokenValidationTimer;
-    private static final String TOKEN_URL = "http://localhost:8080/api/auth/validate";
+    private static final String TOKEN_URL = "http://192.168.1.10:8080/api/auth/validate";
 
     public TokenValidation(String token, JFrame frame) {
         this.token = token;

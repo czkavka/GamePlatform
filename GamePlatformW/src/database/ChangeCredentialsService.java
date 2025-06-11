@@ -16,7 +16,7 @@ import session.SessionManager;
  * oraz nowym haslem/nazwa uzytkownika
 */
 public class ChangeCredentialsService {
-	private static final String CHANGE_URL = "http://localhost:8080/api/auth/credentials";
+	private static final String CHANGE_URL = "http://192.168.1.10:8080/api/auth/credentials";
 	
 	public static String changeCredentials(String token, String newPassword, String confPassword, String newUsername) throws Exception {
 		URL url = new URL(CHANGE_URL);
