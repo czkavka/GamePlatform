@@ -29,6 +29,9 @@ public class SessionManager {
     public String getAuthToken() {
         return authToken;
     }
+    public void setUsername(String username) {
+    	this.username = username;
+    }
 
     public String getUsername() {
         return username;

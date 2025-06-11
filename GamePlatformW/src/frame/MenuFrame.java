@@ -151,7 +151,16 @@ public class MenuFrame extends JFrame {
         ticTacToeButton.setBounds(25, 140, 250, 250);
         homePanel.add(ticTacToeButton);
         ticTacToeButton.addActionListener(e -> {
-        	//TODO wlaczenie gierki, polaczenie z serwerem
+            EventQueue.invokeLater(() -> {
+                try {
+                    TicTacToeFrame ticTacToeFrame = new TicTacToeFrame();
+                    ticTacToeFrame.setVisible(true);
+                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Nie można uruchomić gry Kółko-Krzyżyk: " + ex.getMessage(), "Błąd uruchamiania gry", JOptionPane.ERROR_MESSAGE);
+                }
+            });
         });
         battleshipsButton = GuiStyle.createGradientButton("Statki", 25, new Color(70,30,40),new Color(150, 30, 30), "/resources/shipIcon.png");
         battleshipsButton.setBounds(575, 140, 250,250);
@@ -207,13 +216,12 @@ public class MenuFrame extends JFrame {
             	changeUsernameField.setText("");
             	changePassFieldConf.setText("");
             	changePassField.setText("");
+            	JOptionPane.showMessageDialog(this, message, "Sukces", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Błąd!", JOptionPane.ERROR_MESSAGE);
             }
                        
         });
-        
-        
         return rightPanel;
     }
     

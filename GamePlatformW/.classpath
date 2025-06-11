@@ -14,5 +14,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="tyrus-standalone-client-2.2.0.jar"/>
+	<classpathentry kind="lib" path="Java-WebSocket-1.6.0.jar"/>
+	<classpathentry kind="lib" path="slf4j-api-2.0.17.jar"/>
+	<classpathentry kind="lib" path="slf4j-simple-2.0.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
