@@ -25,6 +25,9 @@ public class GameController {
   @Autowired
   private GameRepository gameRepository;
 
+  /*
+   * Zwraca dla danej gry ranking zapytania musza byc typu -  .../api/ranking?eGame=GAME_TICTACTOE
+   */
   @GetMapping
   public List<RankingResponse> getRankingByGame(@RequestParam EGame eGame) {
     var game = gameRepository.findByName(eGame)

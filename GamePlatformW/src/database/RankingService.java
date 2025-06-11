@@ -10,6 +10,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+/*
+ * Klasa odpowiedzialna za zwracanie rankingu graczy, po 5 sekundach nastepuje timeout jesli nie polaczono
+ */
 
 public class RankingService {
     private static final String BASE_URL = "http://localhost:8080/api/ranking?eGame=";

@@ -1,6 +1,8 @@
 package session;
 
-//Singleton do sesji
+/*
+ * Singleton przechowujacy sesje uzytkownika
+ */
 public class SessionManager {
     private static SessionManager instance;
     private String authToken;

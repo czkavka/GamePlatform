@@ -5,7 +5,9 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
-
+/*
+ * Klasa odpowiedzialna za wysylanie zapytania HTTP do backendu (LoginRequest) i zwraca odpowiednia informacje (JWTResponse)
+ */
 public class LoginService {
 
     private static final String LOGIN_URL = "http://localhost:8080/api/auth/signin";

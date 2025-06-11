@@ -20,8 +20,9 @@ import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
 import frame.MenuFrame;
-
-//klasa, ktora ustawia style, widac je dopiero po odpaleniu aplikacji, pomaga redundancji kodu 
+/*
+ * Pomocnicza klasa do zmiany stylu komponentow w formatce
+ */
 public class GuiStyle {
 
     public static JLabel applyStyleLabelBasic(JLabel label, int fontSize, int x, int y, int width, int heigth) {
@@ -122,6 +123,7 @@ public class GuiStyle {
         return gbc;
     }
     
+    //dla przycisku z ikona (w menu)
     public static JButton createIconButton(String resource, int x, int y, int width, int height) {
     	URL imgURL = GuiStyle.class.getResource(resource);
         ImageIcon icon = new ImageIcon(imgURL);
@@ -147,7 +149,6 @@ public class GuiStyle {
 
         return button;
     }
-    
     public static JButton createStyledButton(String text, int fontSize, int x, int y, int width, int height) {
         JButton button = new JButton(text);
         button = GuiStyle.applyStyleButton(button, fontSize);

@@ -6,7 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
-
+/*
+ * Klasa odpowiedzialna za rejestracje uzytkownika przez HTTP wysyla zapytanie (SignupRequest) i otrzymuje odpowiedz (MessageResponse)
+ */
 public class RegisterService {
 	private static String REGISTER_URL = "http://localhost:8080/api/auth/signup";
 	

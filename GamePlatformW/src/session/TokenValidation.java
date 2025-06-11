@@ -3,7 +3,9 @@ import javax.swing.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-//sprawdzanie waznosci tokenu, co 10 sekund
+/*
+ * Klasa sprawdzajaca waznosc tokenu co 10 sekund laczac sie z API i porownujac token, jesli jest nieprawidlowy konczy sesje
+ */
 public class TokenValidation {
 
     private final String token;

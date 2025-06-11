@@ -63,6 +63,11 @@ public class AuthController {
   @Autowired 
   UserDetailsServiceImpl userDetailsServiceImpl;
 
+  /*
+   * "username" : "",
+     "password" : ""
+   * 
+   */
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -84,7 +89,9 @@ public class AuthController {
                          userDetails.getEmail(), 
                          roles));
   }
-
+ /*
+  * Sprawdza token - jesli jest ok, zwraca 200 
+  */
   @GetMapping("/validate")
     public ResponseEntity<Void> validateToken(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
@@ -93,6 +100,13 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); 
         }
     }
+
+   /*
+     Moga byc null, jesli zmieniamy np. tylko jedna wartosc czyli tylko haslo, czy nazwe uzytkownika
+    "newPassword": "",
+    "confirmPassword": "",
+    "newUsername": ""
+    */
    @PutMapping("/credentials")
    public ResponseEntity<?> changeUserCredentials(@RequestBody CredentialChangeRequest request) {
     try {
@@ -118,7 +132,13 @@ public class AuthController {
     }
   }
 
-
+ /*
+  "username" : "",
+  "email" : "",
+  "password" : "",
+  "role" : ["role"] - moze byc null, wtedy przypisuje ROLE_USER
+}
+  */
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -139,8 +159,6 @@ public class AuthController {
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
-
-
 
     if (strRoles == null) {
       Role userRole = roleRepository.findByName(ERole.ROLE_USER)

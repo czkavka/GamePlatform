@@ -15,6 +15,9 @@ import database.ChangeCredentialsService;
 import session.SessionManager;
 import session.TokenValidation;
 import style.GuiStyle;
+/*
+ * Klasa bedaca glowna formatka, gdzie uzytkownik moze sprawdzic ranking, zmienic haslo, zaczac instacje gry
+ */
 
 public class MenuFrame extends JFrame {
 
@@ -46,6 +49,7 @@ public class MenuFrame extends JFrame {
     public MenuFrame() {
     	setResizable(false);
         generateLayout();
+        //zaczyna timer zwiazany z tokenem
         String username = SessionManager.getInstance().getUsername();
         tokenValidation = new TokenValidation(SessionManager.getInstance().getAuthToken(), this);
         tokenValidation.startTokenValidation();
@@ -74,6 +78,7 @@ public class MenuFrame extends JFrame {
         mainPanel.add(rightPanel, gbcRight);
     }
 
+    //tworzy panel nawigacyjny, pozwalajacy zmieniac layouty 
     private JPanel createLeftPanel() {
         userPanel = new JPanel();
         userPanel.setPreferredSize(new Dimension(100, 0));
@@ -101,6 +106,7 @@ public class MenuFrame extends JFrame {
         return userPanel;
     }
 
+    //tworzy odpowiednie layouty w menu i komponenty
     private JPanel createRightPanel() {
         cardLayout = new CardLayout();
         rightPanel = new JPanel(cardLayout); 

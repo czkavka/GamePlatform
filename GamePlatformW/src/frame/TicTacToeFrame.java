@@ -6,7 +6,9 @@ import javax.swing.*;
 import session.SessionManager;
 import style.GuiStyle;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
+/*
+ * Formatka z gra kolko-krzyzyk
+ */
 public class TicTacToeFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;

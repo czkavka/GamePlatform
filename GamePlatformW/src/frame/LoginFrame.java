@@ -25,7 +25,9 @@ import style.GuiStyle;
 import database.*;
 import session.SessionManager;
 import session.TokenValidation;
-
+/*
+ * Klasa bedaca formatka do logowania
+ */
 
 public class LoginFrame extends JFrame {
 
@@ -217,6 +219,8 @@ public class LoginFrame extends JFrame {
 
             } catch (Exception ex) {
             	JOptionPane.showMessageDialog(this, "Błędny login lub hasło!", "Błąd z logowaniem", JOptionPane.ERROR_MESSAGE);
+            	loginField.setText("");
+            	passwordField.setText("");
             }
         });       
         cardLayout.show(cardPanel, "Login");

@@ -11,7 +11,10 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 import session.SessionManager;
-
+/*
+ * Klasa odpowiedzialna za wysylanie do backendu zapytania HTTP (CredentialChangeRequest) i zwracania informacji z nowym tokenem 
+ * oraz nowym haslem/nazwa uzytkownika
+*/
 public class ChangeCredentialsService {
 	private static final String CHANGE_URL = "http://localhost:8080/api/auth/credentials";
 	
@@ -62,7 +65,4 @@ public class ChangeCredentialsService {
 	        throw new Exception(errorMessage);
 	    }
 	}
-	
-	
-
 }
