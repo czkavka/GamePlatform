@@ -93,10 +93,46 @@ public class MenuFrame extends JFrame {
         rankingButton.addActionListener(e -> cardLayout.show(rightPanel, "ranking"));
         
         ImageIcon originalIcon = new ImageIcon(MenuFrame.class.getResource("/resources/loginIcon.png"));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         logoIcon = new JLabel(scaledIcon);
-        logoIcon.setBounds(27,490, 50,  50);
+        logoIcon.setBounds(27, 490, 50, 50);
+
+        // akcja wylogowania
+       // logoIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        logoIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(MenuFrame.this,
+                    "Czy na pewno chcesz się wylogować?", "Wylogowanie",
+                    JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // zatrzymaj walidację tokena
+                    if (tokenValidation != null) {
+                        tokenValidation.stopTokenValidation();
+                    }
+                    // wyczyść sesję
+                    SessionManager.getInstance().clearSession();
+
+                    // zamknij obecną ramkę
+                    dispose();
+
+                    // uruchom ponownie LoginFrame
+                    EventQueue.invokeLater(() -> {
+                        try {
+                            LoginFrame loginFrame = new LoginFrame(); // ← Upewnij się, że ta klasa istnieje
+                            loginFrame.setVisible(true);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null,
+                                "Nie udało się uruchomić formatki logowania: " + ex.getMessage(),
+                                "Błąd", JOptionPane.ERROR_MESSAGE);
+                        }
+                    });
+                }
+            }
+        });
+
         
         userPanel.add(logoIcon);
         userPanel.add(homeButton);
