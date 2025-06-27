@@ -10,7 +10,7 @@ import org.json.JSONObject;
  */
 public class LoginService {
 
-    private static final String LOGIN_URL = "http://192.168.1.10:8080/api/auth/signin";
+    private static final String LOGIN_URL = "http://localhost:8080/api/auth/signin";
 
     public static String login(String username, String password) throws Exception {
         URL url = new URL(LOGIN_URL);

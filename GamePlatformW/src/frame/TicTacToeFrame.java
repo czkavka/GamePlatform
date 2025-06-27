@@ -65,7 +65,7 @@ public class TicTacToeFrame extends JFrame {
         try {
             String token = SessionManager.getInstance().getAuthToken();
             
-            String wsUrl = "ws://192.168.1.10:8080/ws/game?token=" + token;
+            String wsUrl = "ws://localhost:8080/ws/game?token=" + token;
             client = new GameClient(new URI(wsUrl), this);
             client.connect();
         } catch (Exception e) {
